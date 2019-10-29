@@ -9,7 +9,7 @@
         <!-- 表单选项 label="活动名称" 表单输入框前的文字-->
         <el-form-item prop="mobile">
           <!-- 表单元素 -->
-          <el-input v-model="formlogin.mobile" placeholder="请输入用户名" ></el-input>
+          <el-input v-model="formlogin.mobile" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="code">
           <!-- 表单元素 -->
@@ -30,6 +30,8 @@
 <script>
 // 先不用
 // import focus from '../../directive/v-focus'
+// 引入设置本地存储的模块
+import login from '@/utils/local.js'
 export default {
   data () {
     // 定义一个自定义匹配手机号的正则判断
@@ -42,8 +44,8 @@ export default {
     }
     return {
       formlogin: {
-        mobile: '',
-        code: ''
+        mobile: '18703182949',
+        code: '246810'
       },
       loginrules: {
         // 监测哪个字段就要在哪个字段写规则，名字要相同
@@ -53,7 +55,12 @@ export default {
         ],
         code: [
           { required: true, message: '验证码被狗吃了吗', trigger: 'blur' },
-          { min: 6, max: 6, message: '验证码6位，懂吗？？？？？？', trigger: 'blur' }
+          {
+            min: 6,
+            max: 6,
+            message: '验证码6位，懂吗？？？？？？',
+            trigger: 'blur'
+          }
         ]
       }
     }
@@ -61,22 +68,39 @@ export default {
   methods: {
     alllogin () {
       // 进行整体判断的方法,如果是组件，则$refs获取的是组件实例，如果是dom则获取的是dom元素
-      this.$refs['form'].validate((valid) => {
+      this.$refs['form'].validate(async valid => {
         if (valid) {
           // 检验格式正确，然后发送请求判断数据是否正确
-          this.$http({
-            url: 'authorizations',
-            method: 'post',
-            data: this.formlogin
-          }).then((res) => {
+          // this.$http({
+          //   url: 'authorizations',
+          //   method: 'post',
+          //   data: this.formlogin
+          // })
+          //   .then(res => {
+          //     // 在这里得到了takon值，并把它设在了本地上
+          //     // console.log(res)
+          //     login.setuser(res.data.data)
+          //     this.$router.push('/')
+          //   })
+          //   .catch(() => {
+          //     this.$message.error('你的手机号或者是验证码输错了，厉害了')
+          //   })
+
+          // 用await和async改造代码
+          try {
+            const { data: { data } } = await this.$http({
+              url: 'authorizations',
+              method: 'post',
+              data: this.formlogin
+            })
+            login.setuser(data)
             this.$router.push('/')
-          }).catch(() => {
+          } catch (e) {
             this.$message.error('你的手机号或者是验证码输错了，厉害了')
-          })
+          }
         }
       })
     }
-
   }
 }
 </script>

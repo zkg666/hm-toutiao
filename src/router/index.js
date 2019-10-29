@@ -10,9 +10,16 @@ import welcome from '@/views/welcome'
 import content from '@/views/content'
 // 引入404组件
 import none from '@/views/404'
+// 引入获取本地存储的函数
+import local from '@/utils/local'
+// 使用router路由器
 Vue.use(VueRouter)
 
-export default new VueRouter({
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+const router = new VueRouter({
   routes: [
     {
       path: '/login',
@@ -37,4 +44,19 @@ export default new VueRouter({
       component: none
     }
   ]
+})
+export default router
+// 设置导航守卫，因为在从登录页面到首页需要用到，在跳转页面的时候，判断是否有用户的信息，如果有用户信息，则放行，如果没有用户
+// 信息，判断是不是登录页面，如果是登录页面则放行，不是则阻止到登录界面
+router.beforeEach((to, from, next) => {
+  const msg = local.getuser()
+  if (msg) {
+    next()
+  } else {
+    if (to.path === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
+  }
 })

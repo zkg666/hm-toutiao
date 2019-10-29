@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // var xhr = new XMLHttpRequest()
+        // xhr.open('get', 'http://localhost:3000/a')
+        // xhr.onload = function () {
+        //     var xhr1 = new XMLHttpRequest()
+        //     xhr1.open('get', 'http://localhost:3000/b')
+        //     xhr1.onload = function () {
+        //         console.log(xhr1.responseText)
+        //     }
+        //     xhr1.send()
+        //     console.log(xhr.responseText)
+        // }
+        // xhr.send()
+
+        const axios = function (url) {
+            return new Promise((reslove, reject) => {
+                var xhr = new XMLHttpRequest()
+                xhr.open('get', url)
+                xhr.onload = function () {
+                    reslove(xhr.responseText)
+                }
+                xhr.onerror = function () {
+                    reject(new Error('请求失败'))
+                }
+                xhr.send()
+            })
+        }
+        // axios('http://localhost:3000/a').then(res=>{
+        //     console.log(res)
+        //     return axios('http://localhost:3000/b')
+        // }).then(res=>{
+        //     console.log(res)
+        // })
+
+        const getdata = async function () {
+            const a = await axios('http://localhost:3000/a')
+            const b = await axios('http://localhost:3000/b')
+            console.log(a)
+            console.log(b)
+        }
+        getdata()
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
