@@ -7,6 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import router from '@/router'
 // 引入axios
 import axios from '@/api'
+import mymb from '@/components/ins.js'
+Vue.use(mymb)
 // 配置全局axios，这样每个vue实例都有这个方法
 Vue.prototype.$http = axios
 // 使用饿了么,elementui第三方包

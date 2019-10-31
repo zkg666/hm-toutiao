@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item prop="code">
           <!-- 表单元素 -->
-          <el-input v-model="formlogin.code" class="code" placeholder="请输入验证码"></el-input>
+          <el-input v-model="formlogin.code" class="code" placeholder="请输入验证码" @keyup.enter.native="alllogin"></el-input>
           <el-button>发送验证码</el-button>
         </el-form-item>
         <!-- 复选框 -->
