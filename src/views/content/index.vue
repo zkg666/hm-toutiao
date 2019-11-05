@@ -14,14 +14,11 @@
             <el-radio :label="1">待审核</el-radio>
             <el-radio :label="2">审核通过</el-radio>
             <el-radio :label="3">审核失败</el-radio>
-            <!-- <el-radio :label="4">已删除</el-radio> -->
           </el-radio-group>
         </el-form-item>
         <!-- 频道框 -->
         <el-form-item label="频道:">
-          <el-select placeholder="请选择" v-model="content.channel_id" clearable>
-            <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select>
+          <my-channel v-model="content.channel_id"></my-channel>
         </el-form-item>
         <!-- 日期框 -->
         <el-form-item label="日期:">
@@ -112,6 +109,7 @@ export default {
     // 点击编辑按钮时跳转页面，是带参数的跳转页面
     // 带参数跳转需要用到query方式的传参，不能是params传参，query不会改变路径，params传参会改变路径
     edit (id) {
+      // console.log(id)
       this.$router.push({ path: '/publish', query: { id } })
     },
     // 点击删除，也需要传入id值
@@ -150,14 +148,6 @@ export default {
         this.content.end_pubdate = null
       }
     },
-    // 获取频道的信息
-    async getchannels () {
-      const { data: { data } } = await this.$http({
-        url: 'channels',
-        method: 'get'
-      })
-      this.channels = data.channels
-    },
     // 获取文章信息
     async getarticles () {
       const { data: { data } } = await this.$http({
@@ -174,12 +164,8 @@ export default {
       this.content.page = newpage
       this.getarticles()
     },
-    // 点击删选时的事件
+    // 点击筛选时的事件
     search () {
-      // 当添加了清除频道选项时，会默认的将channel_id这个值赋值为""空字符串，但是请求接口的时候，不能为空字符串，需要设为null
-      if (this.content.channel_id === '') {
-        this.content.channel_id = null
-      }
       // 删选之后重回第一页
       this.content.page = 1
       // 重新调用插口
@@ -187,7 +173,6 @@ export default {
     }
   },
   created () {
-    this.getchannels()
     this.getarticles()
   }
 }

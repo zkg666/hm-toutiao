@@ -7,6 +7,7 @@ import JSONBIGINT from 'json-bigint'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
 // 配置处理响应体的方式，主动配置，不让axios帮忙配置
 axios.defaults.transformResponse = [data => {
+  // console.log(data)
   // 进行设置响应体
   try {
     return JSONBIGINT.parse(data)

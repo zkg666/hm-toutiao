@@ -12,6 +12,14 @@ import content from '@/views/content'
 import none from '@/views/404'
 // 引入获取本地存储的函数
 import local from '@/utils/local'
+// 引入素材管理组件
+import image from '@/views/images'
+// 引入发布文章
+import publish from '@/views/publish'
+// 引入评论管理组件
+import comment from '@/views/comment'
+// 引入个人设置组件
+import setting from '@/views/setting'
 // 使用router路由器
 Vue.use(VueRouter)
 
@@ -36,6 +44,22 @@ const router = new VueRouter({
         {
           path: '/content',
           component: content
+        },
+        {
+          path: '/image',
+          component: image
+        },
+        {
+          path: '/publish',
+          component: publish
+        },
+        {
+          path: '/comment',
+          component: comment
+        },
+        {
+          path: '/setting',
+          component: setting
         }
       ]
     },
