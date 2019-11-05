@@ -71,6 +71,7 @@
 
 <script>
 import local from '@/utils/local'
+import eventBus from '@/eventBus'
 export default {
   data () {
     return {
@@ -94,8 +95,14 @@ export default {
     }
   },
   created () {
-    const lo = local.getuser() || {}
-    this.user = lo
+    const localmsg = local.getuser() || {}
+    this.user = localmsg
+    eventBus.$on('tohomename', (data) => {
+      this.user.name = data
+    })
+    eventBus.$on('tohomephoto', (data) => {
+      this.user.photo = data
+    })
   }
 }
 </script>

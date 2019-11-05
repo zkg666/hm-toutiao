@@ -130,7 +130,8 @@ export default {
     // 当处于编辑状态的时候
     async edit (draft) {
       await this.$http({
-        url: `articles/${this.article.id}?draft=${draft}`,
+        url: `articles/${this.article.id}`,
+        params: { draft: `${draft}` },
         method: 'put',
         data: this.article
       })
