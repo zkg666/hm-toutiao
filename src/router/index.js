@@ -20,6 +20,8 @@ import publish from '@/views/publish'
 import comment from '@/views/comment'
 // 引入个人设置组件
 import setting from '@/views/setting'
+// 引入粉丝管理组件
+import fans from '@/views/fans'
 // 使用router路由器
 Vue.use(VueRouter)
 
@@ -60,6 +62,10 @@ const router = new VueRouter({
         {
           path: '/setting',
           component: setting
+        },
+        {
+          path: '/fans',
+          component: fans
         }
       ]
     },
